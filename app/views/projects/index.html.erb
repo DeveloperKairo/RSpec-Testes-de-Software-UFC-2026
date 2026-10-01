@@ -1,0 +1,35 @@
+<div class="page-header">
+  <div>
+    <h1 style="font-size: 1.5rem;">Projetos</h1>
+    <p style="margin:0;">Gerencie todos os seus projetos e espaços de trabalho.</p>
+  </div>
+  <%= link_to "Novo projeto", new_project_path, class: "btn btn-primary" %>
+</div>
+
+<% if @projects.any? %>
+  <div class="grid-cards">
+    <% @projects.each do |project| %>
+      <div class="card card-hover">
+        <h3 style="font-size: 1.1rem;"><%= project.name %></h3>
+        <p style="font-size: 0.875rem; height: 3rem; overflow: hidden; margin-bottom: 1.5rem;"><%= truncate(project.description, length: 100) %></p>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+          <div style="font-size: 0.75rem; color: var(--text-secondary); display: flex; gap: 1rem;">
+            <span><%= project.tasks.size %> tarefas</span>
+            <% completed = project.tasks.select{|t| t.status == 'completed'}.size %>
+            <% if project.tasks.size > 0 %>
+              <span><%= completed %> concluídas</span>
+            <% end %>
+          </div>
+          <%= link_to "Abrir →", project, style: "font-size: 0.8125rem; font-weight: 500;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <h3 class="empty-state-title">Nenhum projeto encontrado</h3>
+    <p class="empty-state-desc">Você não tem projetos ativos.</p>
+    <%= link_to "Criar projeto", new_project_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

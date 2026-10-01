@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gerenciador de Tarefas</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  </head>
+  <body>
+    <%= render "shared/flash" %>
+    <% if current_user %>
+      <div class="app-layout">
+        <%= render "shared/sidebar" %>
+        <main class="main-content">
+          <%= yield %>
+        </main>
+      </div>
+    <% else %>
+      <div class="auth-layout">
+        <%= yield %>
+      </div>
+    <% end %>
+  </body>
+</html>

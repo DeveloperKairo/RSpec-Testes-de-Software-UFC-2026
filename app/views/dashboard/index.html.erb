@@ -1,0 +1,56 @@
+<div class="page-header">
+  <div>
+    <h1 style="font-size: 1.5rem;">Bom dia, <%= current_user.name.split.first %></h1>
+    <p style="margin:0;">Aqui está uma visão geral dos seus projetos e tarefas.</p>
+  </div>
+  <%= link_to "Novo projeto", new_project_path, class: "btn btn-primary" %>
+</div>
+
+<%
+  total_projects = @projects.count
+  total_tasks = current_user.projects.joins(:tasks).count
+  completed_tasks = current_user.projects.joins(:tasks).where(tasks: {status: 'completed'}).count
+  in_progress_tasks = current_user.projects.joins(:tasks).where(tasks: {status: 'in_progress'}).count
+%>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-title">Projetos</div>
+    <div class="stat-value"><%= total_projects %></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-title">Total Tarefas</div>
+    <div class="stat-value"><%= total_tasks %></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-title">Concluídas</div>
+    <div class="stat-value"><%= completed_tasks %></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-title">Em Andamento</div>
+    <div class="stat-value"><%= in_progress_tasks %></div>
+  </div>
+</div>
+
+<h2 style="font-size: 1.1rem; margin-bottom: 1rem;">Projetos Recentes</h2>
+<% if @projects.any? %>
+  <div class="grid-cards">
+    <% @projects.limit(6).each do |project| %>
+      <div class="card card-hover">
+        <h3 style="font-size: 1rem;"><%= project.name %></h3>
+        <p style="font-size: 0.875rem; margin-bottom: 1.5rem;"><%= truncate(project.description, length: 80) %></p>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+          <span style="font-size: 0.75rem; color: var(--text-secondary);"><%= project.tasks.size %> tarefas</span>
+          <%= link_to "Ver projeto →", project, style: "font-size: 0.8125rem; font-weight: 500;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <h3 class="empty-state-title">Nenhum projeto ainda</h3>
+    <p class="empty-state-desc">Crie seu primeiro projeto para começar a organizar seu trabalho.</p>
+    <%= link_to "Criar projeto", new_project_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>

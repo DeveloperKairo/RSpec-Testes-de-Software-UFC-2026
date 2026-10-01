@@ -1,0 +1,52 @@
+<div style="margin-bottom: 2rem;">
+  <%= link_to "← Voltar aos Projetos", projects_path, style: "font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;" %>
+</div>
+
+<div class="page-header" style="align-items: flex-start; margin-bottom: 3rem;">
+  <div style="max-width: 600px;">
+    <h1 style="font-size: 1.75rem; margin-bottom: 0.5rem;"><%= @project.name %></h1>
+    <p style="font-size: 1rem; margin: 0;"><%= @project.description %></p>
+  </div>
+  <div style="display: flex; gap: 0.5rem;">
+    <%= link_to "Editar", edit_project_path(@project), class: "btn btn-secondary" %>
+    <%= button_to "Excluir", @project, method: :delete, data: { turbo_confirm: "Are you sure you want to delete this project and all its tasks?" }, class: "btn btn-danger" %>
+  </div>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+  <h2 style="font-size: 1.1rem; margin: 0;">Tarefas</h2>
+  <%= link_to "Nova tarefa", new_project_task_path(@project), class: "btn btn-primary btn-sm" %>
+</div>
+
+<% if @project.tasks.any? %>
+  <div class="task-list">
+    <% @project.tasks.order(created_at: :desc).each do |task| %>
+      <div class="task-item">
+        <div class="task-content">
+          <h4><%= task.title %></h4>
+          <% if task.description.present? %>
+            <p><%= truncate(task.description, length: 120) %></p>
+          <% end %>
+        </div>
+        <div class="task-actions">
+          <span class="badge badge-<%= task.status %>">
+            <% if task.status == 'pending' %>● Pendente
+            <% elsif task.status == 'in_progress' %>● In Progress
+            <% else %>● Concluída
+            <% end %>
+          </span>
+          <div style="display: flex; gap: 0.25rem; margin-left: 1rem;">
+            <%= link_to "Editar", edit_project_task_path(@project, task), class: "btn btn-sm btn-secondary" %>
+            <%= button_to "Excluir", [@project, task], method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="empty-state">
+    <h3 class="empty-state-title">Nenhuma tarefa</h3>
+    <p class="empty-state-desc">Este projeto está vazio. Adicione uma tarefa para começar.</p>
+    <%= link_to "Adicionar tarefa", new_project_task_path(@project), class: "btn btn-secondary" %>
+  </div>
+<% end %>

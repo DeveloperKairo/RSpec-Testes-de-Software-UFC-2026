@@ -1,0 +1,41 @@
+<div class="auth-container" style="max-width: 480px;">
+  <h1 class="auth-title">Crie sua conta</h1>
+  <p class="auth-subtitle">Comece a organizar suas tarefas hoje.</p>
+
+  <%= form_with(model: @user, url: register_path) do |f| %>
+    <%= render 'shared/error_messages', object: @user %>
+
+    <div class="form-group">
+      <%= f.label :name, "Nome completo", class: "form-label" %>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+      <div class="form-group">
+        <%= f.label :email, "Endereço de email", class: "form-label" %>
+        <%= f.email_field :email, class: "form-control", placeholder: "you@example.com" %>
+      </div>
+      <div class="form-group">
+        <%= f.label :age, "Idade", class: "form-label" %>
+        <%= f.number_field :age, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password, "Senha", class: "form-label" %>
+      <%= f.password_field :password, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password_confirmation, "Confirmar senha", class: "form-label" %>
+      <%= f.password_field :password_confirmation, class: "form-control" %>
+    </div>
+
+    <%= f.submit "Criar conta", class: "btn btn-primary", style: "width: 100%; margin-top: 0.5rem;" %>
+  <% end %>
+
+  <div style="text-align: center; margin-top: 2rem; font-size: 0.875rem;">
+    <span style="color: var(--text-secondary);">Já tem uma conta?</span>
+    <%= link_to "Entrar", login_path, style: "font-weight: 500; color: var(--text-primary);" %>
+  </div>
+</div>

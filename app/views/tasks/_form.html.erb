@@ -1,0 +1,23 @@
+<%= form_with(model: [@project, task]) do |f| %>
+  <%= render 'shared/error_messages', object: task %>
+
+  <div class="form-group">
+    <%= f.label :title, "Título da tarefa", class: "form-label" %>
+    <%= f.text_field :title, class: "form-control", placeholder: "What needs to be done?" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description, "Descrição", class: "form-label" %>
+    <%= f.text_area :description, class: "form-control", rows: 4 %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :status, "Status", class: "form-label" %>
+    <%= f.select :status, [["Pendente", "pending"], ["In Progress", "in_progress"], ["Concluída", "completed"]], {}, class: "form-control" %>
+  </div>
+
+  <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+    <%= link_to "Cancelar", @project, class: "btn btn-secondary" %>
+    <%= f.submit "Salvar tarefa", class: "btn btn-primary" %>
+  </div>
+<% end %>

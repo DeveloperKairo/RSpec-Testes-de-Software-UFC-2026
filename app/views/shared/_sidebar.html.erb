@@ -1,0 +1,15 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    Gerenciador de Tarefas
+  </div>
+  <nav class="sidebar-nav">
+    <%= link_to "Painel", dashboard_path, class: "sidebar-link #{'active' if current_page?(dashboard_path)}" %>
+    <%= link_to "Projetos", projects_path, class: "sidebar-link #{'active' if request.path.start_with?('/projects')}" %>
+  </nav>
+  <div class="sidebar-footer">
+    <div style="font-size: 0.875rem; font-weight: 500; color: var(--text-secondary);">
+      <%= current_user.name %>
+    </div>
+    <%= button_to "Logout", logout_path, method: :delete, class: "btn btn-sm btn-secondary" %>
+  </div>
+</aside>

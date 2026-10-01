@@ -1,0 +1,18 @@
+<%= form_with(model: project) do |f| %>
+  <%= render 'shared/error_messages', object: project %>
+
+  <div class="form-group">
+    <%= f.label :name, "Nome do projeto", class: "form-label" %>
+    <%= f.text_field :name, class: "form-control", placeholder: "E.g. Website redesign" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description, "Descrição", class: "form-label" %>
+    <%= f.text_area :description, class: "form-control", rows: 4, placeholder: "What is this project about?" %>
+  </div>
+
+  <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+    <%= link_to "Cancelar", (project.new_record? ? projects_path : project), class: "btn btn-secondary" %>
+    <%= f.submit "Save project", class: "btn btn-primary" %>
+  </div>
+<% end %>
